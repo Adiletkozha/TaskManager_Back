@@ -19,16 +19,22 @@ using TaskManager_Back.Results;
 
 namespace TaskManager_Back.Controllers
 {
+
+
+
+
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
+        ApplicationDbContext context = new ApplicationDbContext();
 
         public AccountController()
         {
         }
+
 
         public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
@@ -336,6 +342,15 @@ namespace TaskManager_Back.Controllers
             {
                 return GetErrorResult(result);
             }
+            else
+            {
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                Console.WriteLine("resuk" + user.Id);
+                userManager.AddToRole(user.Id, "user");
+            }
+
+
+      
 
             return Ok();
         }

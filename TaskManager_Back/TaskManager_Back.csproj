@@ -53,6 +53,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -193,6 +194,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllowedProjects.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Appointment.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -227,20 +234,68 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="AspNetRoles.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserClaims.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogins.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUsers.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="C__MigrationHistory.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Project.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Statuses.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaskColors.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaskManagerDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskManagerDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaskManagerDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaskManagerDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskManagerDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Tasks.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TasksRelationship.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaskTypes.cs">
+      <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -284,6 +339,16 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="TaskManagerDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TaskManagerDataModel.edmx</DependentUpon>
+      <LastGenOutput>TaskManagerDataModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="TaskManagerDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TaskManagerDataModel.edmx</DependentUpon>
+      <LastGenOutput>TaskManagerDataModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -298,6 +363,13 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <EntityDeploy Include="TaskManagerDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TaskManagerDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="TaskManagerDataModel.edmx.diagram">
+      <DependentUpon>TaskManagerDataModel.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -314,6 +386,9 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
