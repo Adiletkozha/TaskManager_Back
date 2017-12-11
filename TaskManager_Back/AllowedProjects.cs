@@ -20,4 +20,11 @@ namespace TaskManager_Back
     
         public virtual Project Project { get; set; }
     }
+
+    public partial class AllowedProjectModel
+    {
+        public string PersonID { get; set; }
+        public int ProjectID { get; set; }
+
+    }
 }

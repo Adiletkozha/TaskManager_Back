@@ -5,6 +5,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using System.Data.SqlClient;
+using System.Data;
+using System.Configuration;
 
 namespace TaskManager_Back.Controllers
 {
@@ -12,11 +15,12 @@ namespace TaskManager_Back.Controllers
     {
         TaskManagerEntities3 entities = new TaskManagerEntities3();
 
-        [Authorize(Roles="admin")]
+
+        [Authorize(Roles = "admin")]
         [Route("api/projects/all")]
         public HttpResponseMessage GetAll()
         {
-            var projects = entities.Project.ToList();
+            var projects = entities.Project.ToArray();
             if (projects == null)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "Internal error");
@@ -26,20 +30,73 @@ namespace TaskManager_Back.Controllers
             }
 
         }
-        
+
         [Authorize]
         public HttpResponseMessage Get()
         {
-            var projects = entities.AllowedProjects;
-            if (projects == null)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "Internal error");
+            DataSet ds = new DataSet();
+
+            if (User.Identity.GetUserName() == "admin@example.com") {
+                return GetAll();
             }
-            else
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
-                return Request.CreateResponse(HttpStatusCode.OK, User.Identity.GetUserId());
+                using (SqlCommand cmd = new SqlCommand("spGetAllowedProjects", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("UserId", SqlDbType.NVarChar).Value = User.Identity.GetUserId();
+                    SqlDataAdapter adp = new SqlDataAdapter();
+                    adp.SelectCommand = cmd;
+                    adp.Fill(ds);
+                    return Request.CreateResponse(HttpStatusCode.OK, ds);
+                }
             }
 
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public HttpResponseMessage Post([FromBody] ProjectModel pr)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("spCreateNewProject", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("Title", SqlDbType.NVarChar).Value = pr.Title;
+                    cmd.Parameters.Add("Description", SqlDbType.NVarChar).Value = pr.Description;
+                    cmd.Parameters.Add("CreatedAt", SqlDbType.DateTime).Value = DateTime.Now;
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, "succSess");
+        }
+        
+        [HttpPost]
+        [Route("api/projects/giveAccessToUser")]
+        [Authorize(Roles="admin")]
+        public HttpResponseMessage GiveAccess([FromBody] AllowedProjectModel ap)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("spGiveAccessToProject", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("PersonId", SqlDbType.NVarChar).Value = ap.PersonID;
+                    cmd.Parameters.Add("ProjectId", SqlDbType.NVarChar).Value = ap.ProjectID;
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, "succSess");
+        }
+
+
+
+
     }
 }

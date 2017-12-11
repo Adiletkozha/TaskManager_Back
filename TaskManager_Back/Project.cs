@@ -9,9 +9,10 @@
 
 namespace TaskManager_Back
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
     public partial class Project
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,10 +26,24 @@ namespace TaskManager_Back
         public string Title { get; set; }
         public string Description_ { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
-    
+
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AllowedProjects> AllowedProjects { get; set; }
+        [JsonIgnore] 
+        [IgnoreDataMember]
+        public virtual  ICollection<AllowedProjects> AllowedProjects { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tasks> Tasks { get; set; }
+        [JsonIgnore]
+        [IgnoreDataMember]
+        public virtual  ICollection<Tasks> Tasks { get; set; }
+    }
+
+    public partial class ProjectModel
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
+
     }
 }

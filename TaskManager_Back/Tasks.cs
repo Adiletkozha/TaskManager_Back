@@ -11,10 +11,12 @@ namespace TaskManager_Back
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
     public partial class Tasks
     {
         public int Id { get; set; }
+        public int Parent { get; set; }
         public Nullable<int> ProjectID { get; set; }
         public string Title { get; set; }
         public string Description_ { get; set; }
@@ -28,6 +30,7 @@ namespace TaskManager_Back
         public int Color { get; set; }
         public Nullable<int> Status_ { get; set; }
     
+        [IgnoreDataMember]
         public virtual Project Project { get; set; }
     }
 }

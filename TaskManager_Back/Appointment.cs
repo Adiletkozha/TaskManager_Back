@@ -15,6 +15,7 @@ namespace TaskManager_Back
     public partial class Appointment
     {
         public int Id { get; set; }
+        public int ProjectID { get; set; }
         public int TaskID { get; set; }
         public string PersonID { get; set; }
         public Nullable<System.DateTime> AppointedAt { get; set; }
