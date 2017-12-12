@@ -38,8 +38,30 @@ namespace TaskManager_Back.Controllers
             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error. Required projectID. api/tasks/projectID={id}");
         }
 
+
+        [HttpGet]
+        [Route("api/tasks/subtasks")]
+        public HttpResponseMessage getSubtasks([FromUri] int taskID)
+        {
+
+            DataSet ds = new DataSet();
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("spGetSubtasks", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("TaskId", SqlDbType.Int).Value = taskID;
+                    SqlDataAdapter adp = new SqlDataAdapter();
+                    adp.SelectCommand = cmd;
+                    adp.Fill(ds);
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, ds);
+        }
+
+
         [HttpPost]
-        [Route("api/tasks/create")]
+       // [Route("api/tasks/create")]
         public HttpResponseMessage Create([FromBody] Tasks ts)
         {
 

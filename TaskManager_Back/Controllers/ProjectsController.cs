@@ -95,6 +95,26 @@ namespace TaskManager_Back.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, "succSess");
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("api/projects/GetAllowedUsers")]
+        public HttpResponseMessage GetAllowedUsersToProject(int ProjectId)
+        {
+            DataSet ds = new DataSet();
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("spGetUsersByProjectId", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("ProjectId", SqlDbType.Int).Value = ProjectId;
+                    SqlDataAdapter adp = new SqlDataAdapter();
+                    adp.SelectCommand = cmd;
+                    adp.Fill(ds);
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, ds);
+        }
+
 
 
 
