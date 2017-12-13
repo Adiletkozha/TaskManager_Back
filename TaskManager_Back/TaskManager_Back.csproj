@@ -247,9 +247,12 @@
       <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DownloadFileController.cs" />
+    <Compile Include="Controllers\FileUploadViewController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
+    <Compile Include="Controllers\UploadFileController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>TaskManagerDataModel.tt</DependentUpon>
@@ -265,6 +268,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
+    <Compile Include="Providers\MultiPartFormDataStreamProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Statuses.cs">
@@ -371,6 +375,7 @@
     <Content Include="TaskManagerDataModel.edmx.diagram">
       <DependentUpon>TaskManagerDataModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\FileUploadView\FileUpload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
