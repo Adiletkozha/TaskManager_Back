@@ -25,18 +25,40 @@ namespace TaskManager_Back.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.UnsupportedMediaType, "Unsupported media type.");
             }
-
             // Read the file and form data.
             MultipartFormDataMemoryStreamProvider provider = new MultipartFormDataMemoryStreamProvider();
             await Request.Content.ReadAsMultipartAsync(provider);
 
             // Extract the fields from the form data.
-            string description = provider.FormData["description"];
+            string description = provider.FormData["ProjectId"];
+
+
+            foreach (HttpContent obj in provider.Contents)
+            {
+                Console.WriteLine(obj);
+                if (obj.ToString() == "TaskId")
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, obj);
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "BAAAAD REq" ); 
+                }
+            }
+
+            
+        
             int uploadType;
-         //   if (!Int32.TryParse(provider.FormData["uploadType"], out uploadType))
-         //   {
-          //      return Request.CreateResponse(HttpStatusCode.BadRequest, "Upload Type is invalid.");
-           // }
+            //   if (!Int32.TryParse(provider.FormData["uploadType"], out uploadType))
+            //   {
+            //      return Request.CreateResponse(HttpStatusCode.BadRequest, "Upload Type is invalid.");
+            // }
+
+
+            if (description != null)
+            {
+                Console.WriteLine(description);
+            }
 
             // Check if files are on the request.
             if (!provider.FileStreams.Any())
